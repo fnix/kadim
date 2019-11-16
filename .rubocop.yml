@@ -1,0 +1,22 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - '**/tmp/**/*'
+    - '**/templates/**/*'
+    - '**/vendor/**/*'
+    - '**/node_modules/**/*'
+
+Layout/IndentationConsistency:
+  Enabled: true
+  EnforcedStyle: indented_internal_methods
+
+Layout/IndentFirstArrayElement:
+  EnforcedStyle: consistent
+
+Metrics/LineLength:
+  Max: 120

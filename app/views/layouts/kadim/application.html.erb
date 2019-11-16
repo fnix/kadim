@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kadim</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'kadim/application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'kadim/application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+
+<div class="menu">
+  <%= menu_links %>
+</div>
+<%= yield %>
+
+</body>
+</html>
