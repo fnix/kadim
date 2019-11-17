@@ -21,4 +21,5 @@ jobs:
         gem install bundler
         bundle install --jobs 4 --retry 3
         bundle exec rake db:migrate
+        bundle exec rake db:test:prepare
         bundle exec rspec
