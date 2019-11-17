@@ -42,9 +42,6 @@ Or install it yourself as:
 $ gem install kadim
 ```
 
-## Contributing
-Contribution directions go here.
-
 ## Roadmap
 - [x] Dynamic CRUD generation from application models
 - [ ] Tasks to copy files form kadim to the hosted application
