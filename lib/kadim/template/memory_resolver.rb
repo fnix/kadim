@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'singleton'
+require "singleton"
 
 module Kadim
   class MemoryResolver < ActionView::Resolver
@@ -25,9 +25,9 @@ module Kadim
       end
 
       def add(body, path, partial)
-        name = path.split('/').last
+        name = path.split("/").last
         name = name[1..-1] if partial
-        prefix = path.split('/')[0..-2].join('/')
+        prefix = path.split("/")[0..-2].join("/")
         @data[name][prefix][partial] = body
       end
 
@@ -42,7 +42,7 @@ module Kadim
     end
 
     def add(body, path)
-      partial = path.split('/').last.start_with?('_')
+      partial = path.split("/").last.start_with?("_")
       @store.add(body, path, partial)
     end
 
@@ -52,7 +52,6 @@ module Kadim
     end
 
     private
-
       def find_templates(name, prefix, partial, details, locals = [])
         return unless details[:formats].include?(:html) && details[:handlers].include?(:erb)
 
@@ -77,8 +76,8 @@ module Kadim
       def virtual_path(path, partial)
         return path unless partial
 
-        if index = path.rindex('/')
-          path.dup.insert(index + 1, '_')
+        if (index = path.rindex("/"))
+          path.dup.insert(index + 1, "_")
         else
           "_#{path}"
         end

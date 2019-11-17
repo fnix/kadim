@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require 'rails/generators'
-require 'rails/generators/rails/scaffold_controller/scaffold_controller_generator'
+require "rails/generators"
+require "rails/generators/rails/scaffold_controller/scaffold_controller_generator"
 
-require 'kadim/engine'
-require 'kadim/template/memory_resolver'
+require "kadim/engine"
+require "kadim/template/memory_resolver"
 
 module Kadim
   def self.app_model_names
-    Dir[Rails.root.join('app', 'models', '**', '*.rb')]
-      .reject { |model_path| model_path.include?('/concerns/') || model_path.include?('application_record') }
-      .map    { |model_path| model_path.remove(%r{.*/app/models/}, '.rb') }
+    Dir[Rails.root.join("app", "models", "**", "*.rb")]
+      .reject { |model_path| model_path.include?("/concerns/") || model_path.include?("application_record") }
+      .map    { |model_path| model_path.remove(%r{.*/app/models/}, ".rb") }
       .select { |model_name| model_name.camelize.constantize.table_exists? }
       .sort
   end
@@ -22,19 +22,18 @@ module Kadim
 
   class << self
     private
-
       def cleanup
         cleanup_tmp_files
         cleanup_kadim_consts
       end
 
       def cleanup_tmp_files
-        FileUtils.remove_dir(Rails.root.join('tmp', 'kadim'), true)
+        FileUtils.remove_dir(Rails.root.join("tmp", "kadim"), true)
       end
 
       def cleanup_kadim_consts
         controller_filenames.each do |controller_filename|
-          next if File.exist?(Rails.root.join('app', 'controllers', 'kadim', "#{controller_filename}.rb"))
+          next if File.exist?(Rails.root.join("app", "controllers", "kadim", "#{controller_filename}.rb"))
 
           controller_klass = controller_filename.camelize
           Kadim.send(:remove_const, controller_klass) if Kadim.const_defined?(controller_klass, false)
@@ -61,8 +60,8 @@ module Kadim
 
         generator = Rails::Generators::ScaffoldControllerGenerator.new(
           [model_name, *scaffold_attributes(model_klass)],
-          ['--force', '--quiet', '--no-orm', '--no-test-framework', '--no-helper'],
-          destination_root: Rails.root.join('tmp', 'kadim')
+          ["--force", "--quiet", "--no-orm", "--no-test-framework", "--no-helper"],
+          destination_root: Rails.root.join("tmp", "kadim")
         )
         generator.invoke_all
       end
@@ -77,12 +76,12 @@ module Kadim
       end
 
       def load_kadim_controllers
-        Dir[Rails.root.join('tmp', 'kadim', 'app', 'controllers', '**', '*_controller.rb')].each { |path| load path }
+        Dir[Rails.root.join("tmp", "kadim", "app", "controllers", "**", "*_controller.rb")].each { |path| load path }
       end
 
       def load_kadim_views
         Kadim::MemoryResolver.instance.clear
-        Dir[Rails.root.join('tmp', 'kadim', 'app', 'views', '**', '*.html.erb')].each do |file_path|
+        Dir[Rails.root.join("tmp", "kadim", "app", "views", "**", "*.html.erb")].each do |file_path|
           view_match = %r{.*/app/views/(.*)(\.html\.erb)}.match(file_path)
           view_path = view_match[1]
           Kadim::MemoryResolver.instance.add(IO.read(file_path), view_path)
