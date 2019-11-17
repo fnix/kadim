@@ -30,6 +30,10 @@ module Kadim
         prefix = path.split('/')[0..-2].join('/')
         @data[name][prefix][partial] = body
       end
+
+      def clear
+        @data.clear
+      end
     end
 
     def initialize
@@ -42,8 +46,9 @@ module Kadim
       @store.add(body, path, partial)
     end
 
-    def clear_cache
-      # TODO
+    def clear
+      @cache.clear
+      @store.clear
     end
 
     private
