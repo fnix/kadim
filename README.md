@@ -25,6 +25,11 @@ ActiveRecord methods added by gems are ignored.
 Files are generated in `tmp/kadim` and loaded into memory, including views. This also has the advantage of allowing the
 gem to work in environments with ephemeral file systems.
 
+If you want to customize `Kadim::ApplicationController`, the basic controller for all generated controllers, you can
+copy the file [app/controllers/kadim/application_controller.rb](https://github.com/fnix/kadim/blob/master/app/controllers/kadim/application_controller.rb)
+to your application. You can do the same for [app/views/layouts/kadim/application.html.erb](https://github.com/fnix/kadim/blob/master/app/views/layouts/kadim/application.html.erb).
+If you want to customize the generated controller/views just copy them from `tmp/kadim` to your application.
+
 ## Installation
 Add this line to your application's Gemfile:
 
