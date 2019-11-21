@@ -1,0 +1,8 @@
+Description:
+    Hosts the base kadim files inside your application by copying assets, controllers, helpers and views.
+
+Example:
+    rails generate kadim:host
+
+    This will copy files for the following folders:
+        <%= Kadim::HostGenerator::BASE_DIRS.join("\n        ") %>
