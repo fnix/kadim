@@ -11,7 +11,7 @@ module Kadim
     Dir[Rails.root.join("app", "models", "**", "*.rb")]
       .reject { |model_path| model_path.include?("/concerns/") || model_path.include?("application_record") }
       .map    { |model_path| model_path.remove(%r{.*/app/models/}, ".rb") }
-      .select { |model_name| model_name.camelize.constantize.table_exists? }
+      .select { |model_name| model_name.camelize.constantize.try(:table_exists?) }
       .sort
   end
 
