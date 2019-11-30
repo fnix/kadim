@@ -25,10 +25,26 @@ ActiveRecord methods added by gems are ignored.
 Files are generated in `tmp/kadim` and loaded into memory, including views. This also has the advantage of allowing the
 gem to work in environments with ephemeral file systems.
 
-If you want to customize `Kadim::ApplicationController`, the basic controller for all generated controllers, you can
-copy the file [app/controllers/kadim/application_controller.rb](https://github.com/fnix/kadim/blob/master/app/controllers/kadim/application_controller.rb)
-to your application. You can do the same for [app/views/layouts/kadim/application.html.erb](https://github.com/fnix/kadim/blob/master/app/views/layouts/kadim/application.html.erb).
-If you want to customize the generated controller/views just copy them from `tmp/kadim` to your application.
+## Customization
+
+You can manually copy kadim files and put them in the same path within your application. You will probably want to do
+this with the main kadim controller, to add safety rules, etc.
+
+You also provide two generators to make this task easier.
+
+```bash
+rails g kadim: host
+rails g kadim: host: scaffold_controller ModelName
+```
+
+The first one copies the basic kadim infrastructure to your application, ie the
+[main controller](app/controllers/kadim/application_controller.rb), the
+[main view](app/views/kadim/application/index.html.erb) and its [layout](app/views/layouts/kadim/application.html.erb),
+a [helper](app/helpers/kadim/application_helper.rb) and [assets](app/assets/).
+
+The second copies the files that kadim dynamically generates into your application, allowing you to have full control
+over controller and views implementation. This generator is a thin layer over the Rails scaffold_controller, but it only
+accepts the model name as a parameter, for attributes all fields of the model are used.
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -47,9 +63,16 @@ Or install it yourself as:
 $ gem install kadim
 ```
 
+Mount the engine:
+```ruby
+mount Kadim::Engine, at: '/kadim'
+```
+
+And access http://localhost:3000/kadim
+
 ## Roadmap
 - [x] Dynamic CRUD generation from application models
-- [ ] Tasks to copy files form kadim to the hosted application
+- [x] Tasks to copy files form kadim to the hosted application
 - [ ] Add support to ActiveStorage attachments
 - [ ] Add support to belongs_to relationships
 - [ ] Add a beautiful look and feel

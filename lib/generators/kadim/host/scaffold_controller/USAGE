@@ -1,0 +1,16 @@
+Description:
+    Hosts on your application the files generated in runtime by `kadim` for the giving resource. This turns the
+    responsability for the resource to your application.
+
+    The model attributes are automatically detected by `kadim`.
+    resource.
+
+Example:
+    `rails generate kadim:host:scaffold_controller CreditCard`
+
+    This will create:
+        Credit card controller with URLs like /credit_cards.
+        Controller: app/controllers/credit_cards_controller.rb
+        Test:       test/controllers/credit_cards_controller_test.rb
+        Views:      app/views/credit_cards/index.html.erb [...]
+        Helper:     app/helpers/credit_cards_helper.rb
