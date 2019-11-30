@@ -69,7 +69,7 @@ module Kadim
 
         generator = Rails::Generators::ScaffoldControllerGenerator.new(
           [model_name, *scaffold_attributes(model_klass)],
-          ["--force", "--quiet", "--no-test-framework", "--no-helper"],
+          ["--force", "--quiet", "--no-test-framework", "--no-helper", "--template-engine=erb"],
           destination_root: Rails.root.join("tmp", "kadim")
         )
         source_path_idx = generator.class.source_paths.index { |source_path| source_path.include?("jbuilder") }

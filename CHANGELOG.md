@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2019-11-30
+### Fixes
+- Kadim was generating HAML views for applications using haml-rails, but the current implementation supports only ERb.
+
 ## [0.2.0] - 2019-11-30
 ### Added
 - Generator to host kadim scaffold on main application: `rails generate kadim:host:scaffold_controller ModelName`
@@ -23,7 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Birthdate :birthday: :tada:
 - Kadim dynamically generates scaffolds for your models!
 
-[Unreleased]: https://github.com/fnix/kadim/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/fnix/kadim/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/fnix/kadim/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/fnix/kadim/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/fnix/kadim/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/fnix/kadim/compare/v0.1.0...v0.1.1
