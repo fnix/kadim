@@ -63,7 +63,7 @@ Or install it yourself as:
 $ gem install kadim
 ```
 
-Mount the engine:
+Mount the engine (add to routes.rb):
 ```ruby
 mount Kadim::Engine, at: '/kadim'
 ```
