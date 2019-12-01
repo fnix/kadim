@@ -56,7 +56,11 @@ module Kadim
 
         current_namespace = Rails::Generators.namespace
         Rails::Generators.namespace = Kadim
-        app_model_paths.each { |model_name| scaffold_controller(model_name) }
+        app_model_paths.each do |model_name|
+          next if Kadim.const_defined?("#{model_name.pluralize}_controller".camelize, false)
+
+          scaffold_controller(model_name)
+        end
         load_kadim_controllers
         load_kadim_views
       ensure
