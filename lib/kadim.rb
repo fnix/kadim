@@ -14,16 +14,17 @@ module Kadim
 
   def self.bootstrap_controllers
     cleanup
+    load_app_kadim_consts
     scaffold_controllers
   end
 
   def self.scaffold_attributes(model_klass)
     model_klass.columns
-                .reject { |column| %w[id created_at updated_at].include?(column.name) }
-                .sort_by(&:name)
-                .map { |column| [column.name, column.type] }
-                .to_h
-                .map { |k, v| "#{k}:#{v}" }
+               .reject { |column| %w[id created_at updated_at].include?(column.name) }
+               .sort_by(&:name)
+               .map { |column| [column.name, column.type] }
+               .to_h
+               .map { |k, v| "#{k}:#{v}" }
   end
 
   class << self
@@ -38,16 +39,17 @@ module Kadim
       end
 
       def cleanup_kadim_consts
-        controller_paths.each do |controller_path|
-          next if File.exist?(Rails.root.join("app", "controllers", "kadim", "#{controller_path}.rb"))
-
-          controller_klass = controller_path.camelize
-          Kadim.send(:remove_const, controller_klass) if Kadim.const_defined?(controller_klass, false)
+        app_model_paths.each do |model_path|
+          controller_klass_name = "#{model_path.pluralize}_controller".camelize
+          helper_klass_name = "#{model_path.pluralize}_helper".camelize
+          Kadim.send(:remove_const, controller_klass_name) if Kadim.const_defined?(controller_klass_name, false)
+          Kadim.send(:remove_const, helper_klass_name) if Kadim.const_defined?(helper_klass_name, false)
         end
       end
 
-      def controller_paths
-        app_model_paths.map { |model_name| "#{model_name.pluralize}_controller" }
+      def load_app_kadim_consts
+        Dir[Rails.root.join("app", "controllers", "kadim", "**", "*_controller.rb")].each { |path| load path }
+        Dir[Rails.root.join("app", "helpers", "kadim", "**", "*_helper.rb")].each { |path| load path }
       end
 
       def scaffold_controllers
@@ -82,7 +84,13 @@ module Kadim
       end
 
       def load_kadim_controllers
-        Dir[Rails.root.join("tmp", "kadim", "app", "controllers", "**", "*_controller.rb")].each { |path| load path }
+        Dir[Rails.root.join("tmp", "kadim", "app", "controllers", "**", "*_controller.rb")].each do |path|
+          retries ||= 0
+          load path
+        rescue LoadError
+          retry if (retries += 1) < 3
+          raise "Ops, failed to load kadim controllers, please restart your application!"
+        end
       end
 
       def load_kadim_views

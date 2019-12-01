@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kadim (0.1.2)
+    kadim (0.2.1)
       activestorage-resumable (~> 1.0.0)
       rails (~> 6.0.0)
 
