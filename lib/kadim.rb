@@ -38,15 +38,15 @@ module Kadim
       end
 
       def cleanup_kadim_consts
-        controller_filenames.each do |controller_filename|
-          next if File.exist?(Rails.root.join("app", "controllers", "kadim", "#{controller_filename}.rb"))
+        controller_paths.each do |controller_path|
+          next if File.exist?(Rails.root.join("app", "controllers", "kadim", "#{controller_path}.rb"))
 
-          controller_klass = controller_filename.camelize
+          controller_klass = controller_path.camelize
           Kadim.send(:remove_const, controller_klass) if Kadim.const_defined?(controller_klass, false)
         end
       end
 
-      def controller_filenames
+      def controller_paths
         app_model_paths.map { |model_name| "#{model_name.pluralize}_controller" }
       end
 
