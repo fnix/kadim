@@ -41,9 +41,7 @@ module Kadim
       def cleanup_kadim_consts
         app_model_paths.each do |model_path|
           controller_klass_name = "#{model_path.pluralize}_controller".camelize
-          helper_klass_name = "#{model_path.pluralize}_helper".camelize
           Kadim.send(:remove_const, controller_klass_name) if Kadim.const_defined?(controller_klass_name, false)
-          Kadim.send(:remove_const, helper_klass_name) if Kadim.const_defined?(helper_klass_name, false)
         end
       end
 
