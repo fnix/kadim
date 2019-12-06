@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_dependency "kadim/application_controller"
 
 module Kadim
