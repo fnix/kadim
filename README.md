@@ -33,8 +33,8 @@ this with the main kadim controller, to add safety rules, etc.
 You also provide two generators to make this task easier.
 
 ```bash
-rails g kadim: host
-rails g kadim: host: scaffold_controller ModelName
+rails g kadim:host
+rails g kadim:host:scaffold_controller ModelName
 ```
 
 The first one copies the basic kadim infrastructure to your application, ie the
