@@ -5,6 +5,8 @@ require "kadim/template/memory_resolver"
 
 module Kadim
   def self.app_model_paths
+    return [] unless db_connection?
+
     Dir[Rails.root.join("app", "models", "**", "*.rb")]
       .reject { |model_path| model_path.include?("/concerns/") || model_path.include?("application_record") }
       .map    { |model_path| model_path.remove(%r{.*/app/models/}, ".rb") }
@@ -13,6 +15,8 @@ module Kadim
   end
 
   def self.bootstrap_controllers
+    return unless db_connection?
+
     cleanup
     load_app_kadim_consts
     scaffold_controllers
@@ -98,6 +102,14 @@ module Kadim
           view_path = view_match[1]
           Kadim::MemoryResolver.instance.add(IO.read(file_path), view_path)
         end
+      end
+
+      def db_connection?
+        ActiveRecord::Base.establish_connection # Establishes connection
+        ActiveRecord::Base.connection # Calls connection object
+        ActiveRecord::Base.connected?
+      rescue ActiveRecord::AdapterNotFound, ActiveRecord::AdapterNotSpecified, ActiveRecord::NoDatabaseError
+        false
       end
   end
 end
