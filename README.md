@@ -1,6 +1,4 @@
-# kadim
-Yet another Rails admin? No, only a kadim!&#42;
-
+# kadim&#42;
 Admin is all about CRUD, right?
 
 My biggest experience with admins is with RailsAdmin. I currently work with an application that makes extensive use of
