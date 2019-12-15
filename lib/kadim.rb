@@ -105,8 +105,7 @@ module Kadim
       end
 
       def db_connection?
-        ActiveRecord::Base.establish_connection # Establishes connection
-        ActiveRecord::Base.connection # Calls connection object
+        ActiveRecord::Base.connection
         ActiveRecord::Base.connected?
       rescue ActiveRecord::AdapterNotFound, ActiveRecord::AdapterNotSpecified, ActiveRecord::NoDatabaseError
         false
