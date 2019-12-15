@@ -3,7 +3,7 @@
 require "rails_helper"
 require "kadim/template/memory_resolver"
 
-describe Kadim::MemoryResolver do
+RSpec.describe Kadim::MemoryResolver do
   subject(:resolver) { described_class.instance }
 
   let(:details) { { formats: [:html], locale: [:en], handlers: [:erb] } }
