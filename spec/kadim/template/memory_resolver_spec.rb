@@ -8,6 +8,8 @@ describe Kadim::MemoryResolver do
 
   let(:details) { { formats: [:html], locale: [:en], handlers: [:erb] } }
 
+  before { resolver.clear }
+
   describe "#find_all" do
     context "without a template match" do
       it "returns empty" do

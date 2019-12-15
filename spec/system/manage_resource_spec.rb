@@ -3,6 +3,10 @@
 require "rails_helper"
 
 RSpec.describe "Manage resources", type: :system do
+  before do
+    Kadim.bootstrap_controllers
+  end
+
   context "when using kadim" do
     it "can list resources" do
       ["Sherlock Holmes", "Dr. Watson"].each { |name| User.create name: name }
