@@ -3,7 +3,11 @@
 module Kadim
   module Host
     class ScaffoldControllerGenerator < Rails::Generators::NamedBase
-      source_root File.expand_path("templates", __dir__)
+      def initialize(args = [], local_options = {}, config = {})
+        @initial_args = args
+        @initial_local_options = local_options
+        super
+      end
 
       def scaffold_controller
         model_path = name.underscore
@@ -12,13 +16,11 @@ module Kadim
           return
         end
 
+        @initial_args += Kadim.scaffold_attributes(model_path.camelize.constantize) if @initial_args.one?
 
         Rails::Generators.namespace = Kadim
         generator = Rails::Generators::ScaffoldControllerGenerator.new(
-          [model_path, *Kadim.scaffold_attributes(model_path.camelize.constantize)],
-          ["--no-jbuilder", "--template-engine=erb"],
-          behavior: behavior,
-          destination_root: destination_root
+          @initial_args, @initial_local_options, behavior: behavior, destination_root: destination_root
         )
 
         # jbuilder 2.9.1 controller template uses a method removed from Rails6
