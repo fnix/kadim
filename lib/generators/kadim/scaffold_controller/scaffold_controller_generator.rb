@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Kadim
-  module Host
+  module Generators
     class ScaffoldControllerGenerator < Rails::Generators::NamedBase
       def initialize(args = [], local_options = {}, config = {})
         @initial_args = args

@@ -3,9 +3,9 @@
 require "rails_helper"
 require "generator_spec"
 
-require "generators/kadim/host/scaffold_controller/scaffold_controller_generator"
+require "generators/kadim/scaffold_controller/scaffold_controller_generator"
 
-RSpec.describe Kadim::Host::ScaffoldControllerGenerator, type: :generator do
+RSpec.describe Kadim::Generators::ScaffoldControllerGenerator, type: :generator do
   destination File.join(Rails.root, "tmp")
 
   context "with user defined attributes" do
