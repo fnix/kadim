@@ -22,6 +22,23 @@ module Kadim
     scaffold_controllers
   end
 
+  def self.scaffold_controller(args, options, config)
+    current_namespace = Rails::Generators.namespace
+    Rails::Generators.namespace = Kadim
+
+    require "rails/generators/erb/scaffold/scaffold_generator"
+    Erb::Generators::ScaffoldGenerator.source_paths.prepend(
+      File.expand_path("generators/kadim/scaffold_controller/templates", __dir__)
+    )
+
+    generator = Rails::Generators::ScaffoldControllerGenerator.new(args, options, config)
+    source_path_idx = generator.class.source_paths.index { |source_path| source_path.include?("jbuilder") }
+    generator.class.source_paths[source_path_idx] = generator.class.source_root if source_path_idx
+    generator.invoke_all
+  ensure
+    Rails::Generators.namespace = current_namespace
+  end
+
   def self.scaffold_attributes(model_klass)
     model_klass.columns
                .reject { |column| %w[id created_at updated_at].include?(column.name) }
@@ -58,31 +75,19 @@ module Kadim
         Rails.application.load_generators
         require "rails/generators/rails/scaffold_controller/scaffold_controller_generator"
 
-        current_namespace = Rails::Generators.namespace
-        Rails::Generators.namespace = Kadim
         app_model_paths.each do |model_name|
           next if Kadim.const_defined?("#{model_name.pluralize}_controller".camelize, false)
+          model_klass = model_name.camelize.constantize
+          return unless model_klass.table_exists?
 
-          scaffold_controller(model_name)
+          args = [model_name, *scaffold_attributes(model_klass)]
+          options = ["--force", "--quiet", "--no-test-framework", "--no-helper", "--template-engine=erb"]
+          config = { destination_root: Rails.root.join("tmp", "kadim") }
+
+          scaffold_controller(args, options, config)
         end
         load_kadim_controllers
         load_kadim_views
-      ensure
-        Rails::Generators.namespace = current_namespace
-      end
-
-      def scaffold_controller(model_name)
-        model_klass = model_name.camelize.constantize
-        return unless model_klass.table_exists?
-
-        generator = Rails::Generators::ScaffoldControllerGenerator.new(
-          [model_name, *scaffold_attributes(model_klass)],
-          ["--force", "--quiet", "--no-test-framework", "--no-helper", "--template-engine=erb"],
-          destination_root: Rails.root.join("tmp", "kadim")
-        )
-        source_path_idx = generator.class.source_paths.index { |source_path| source_path.include?("jbuilder") }
-        generator.class.source_paths[source_path_idx] = generator.class.source_root if source_path_idx
-        generator.invoke_all
       end
 
       def load_kadim_controllers

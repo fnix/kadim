@@ -53,6 +53,7 @@ module Kadim
 
     private
       def find_templates(name, prefix, partial, details, locals = [])
+        details[:handlers].map! { |handler| handler.to_sym }
         return unless details[:formats].include?(:html) && details[:handlers].include?(:erb)
 
         body = @store.find(name, prefix, partial)
