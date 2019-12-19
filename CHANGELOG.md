@@ -4,6 +4,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.3.0] - 2019-12-19
+### Added
+- Generate file inputs for models using ActiveStorage `has_one_attached` and/or `has_many_attached` method. The
+  generated code can deal with local disk uploads, direct and resumable uploads to the cloud.
+- kadim:scaffold_controller now support all the arguments supported by scaffold_controller.
+
+### Changed
+- Rename kadim:host:scaffold_controller to only kadim:scaffold_controller.
+
 ## [0.2.3] - 2019-12-11
 ### Fixes
 - Kadim was generating exceptions when there isn't a database, preventing CLI commands from running, including
