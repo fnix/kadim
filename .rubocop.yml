@@ -10,10 +10,12 @@ AllCops:
   # to ignore them, so only the ones explicitly set in this file are enabled.
   DisabledByDefault: true
   Exclude:
-    - '**/tmp/**/*'
-    - '**/templates/**/*'
-    - '**/vendor/**/*'
+    - '**/db/migrate/**/*'
+    - '**/db/schema.rb'
     - '**/node_modules/**/*'
+    - '**/templates/**/*'
+    - '**/tmp/**/*'
+    - '**/vendor/**/*'
 
 Performance:
   Exclude:
