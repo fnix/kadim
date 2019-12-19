@@ -1,8 +1,7 @@
 PATH
   remote: .
   specs:
-    kadim (0.2.3)
-      activestorage (~> 6.0.0)
+    kadim (0.3.0)
       activestorage-resumable (~> 1.0.0)
       google-cloud-storage (>= 1.21.0, < 2.0)
       rails (~> 6.0.0)
@@ -98,7 +97,7 @@ GEM
       railties (>= 3.0.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    google-api-client (0.36.0)
+    google-api-client (0.36.1)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (~> 0.9)
       httpclient (>= 2.8.1, < 3.0)

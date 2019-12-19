@@ -18,7 +18,6 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.add_dependency "activestorage", "~> 6.0.0"
   spec.add_dependency "activestorage-resumable", "~> 1.0.0"
   spec.add_dependency "google-cloud-storage", ">= 1.21.0", "< 2.0"
   spec.add_dependency "rails", "~> 6.0.0"
