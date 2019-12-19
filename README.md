@@ -1,48 +1,70 @@
 # kadim&#42;
 Admin is all about CRUD, right?
 
-My biggest experience with admins is with RailsAdmin. I currently work with an application that makes extensive use of
-it and all my peers hate having to customize anything on it, me too!
+My biggest experience with admins is with [RailsAdmin](https://github.com/sferik/rails_admin). I currently work with an
+application that makes extensive use of it and all my peers hate having to customize anything on it, me too!
 
-If I have used administrate or trestle? Yes, I've tried it, but isn't reinventing the wheel super cool? In fact I
-believe a less DSL-focused admin would be better.
+I also tried [administrate](https://github.com/thoughtbot/administrate) and
+[trestle](https://github.com/TrestleAdmin/trestle), I think they are a move forward, but reinventing the wheel is super
+cool, right? The true is that I want more Rails and less DSL.
 
-I just got annoyed at just criticizing existing solutions and decided to get my hands dirty to put my vision into
-practice.
-
-*&#42; kadim: derived from "cadim", an expression from the brazillian mineiro dialect that means "a little bit".*
+*&#42;kadim: derived from "cadim", an expression from the brazillian mineiro dialect that means "a little bit".*
 
 ## Usage
-In the current incarnation, it's very crud (no pun intended) and there is no configuration, everything works by
-convention.
+In the current incarnation, it's very crud (no pun intended). We just dynamically scaffold_controller your models using
+all it's attributes and ActiveStorage relations inside `tmp/kadim` and load everything in memory, including views. This
+allows you to run kadim in environments with ephemeral file systems, like [heroku](https://www.heroku.com/).
 
-For each model of your application will be generated a controller and their views, using the Rails generator
-scaffold_controller, using all columns present in your model. Relations, ActiveStorage attachments and other
-ActiveRecord methods added by gems are ignored.
+Just follow the [Installation](#installation) section and access http://localhost:3000/kadim
 
-Files are generated in `tmp/kadim` and loaded into memory, including views. This also has the advantage of allowing the
-gem to work in environments with ephemeral file systems.
+### ActiveStorage support
+If we detect that you have S3, GCS or Azure Storage configured we will use
+[Direct Uploads](https://edgeguides.rubyonrails.org/active_storage_overview.html#direct-uploads) by default. If you are
+using GCS and uploading biiiig files, the `resumable` option is perfect:
 
-## Customization
-
-You can manually copy kadim files and put them in the same path within your application. You will probably want to do
-this with the main kadim controller, to add safety rules, etc.
-
-You also provide two generators to make this task easier.
-
-```bash
-rails g kadim:host
-rails g kadim:host:scaffold_controller ModelName
+```ruby
+# config/initializers/kadim.rb
+Kadim.configure do |config|
+  config.upload_type = :resumable
+end
 ```
 
-The first one copies the basic kadim infrastructure to your application, ie the
-[main controller](app/controllers/kadim/application_controller.rb), the
-[main view](app/views/kadim/application/index.html.erb) and its [layout](app/views/layouts/kadim/application.html.erb),
-a [helper](app/helpers/kadim/application_helper.rb) and [assets](app/assets/).
+upload_type accepts the following options:
+  - :local     - Uses ActiveStorage [Disk Service](https://edgeguides.rubyonrails.org/active_storage_overview.html#disk-service)
+  - :direct    - Uses ActiveStorage [Direct Upload](https://edgeguides.rubyonrails.org/active_storage_overview.html#direct-uploads)
+  - :resumable - Uses [activestorage-resumable gem](https://rubygems.org/gems/activestorage-resumable) to implement [Resumable Uploads](https://cloud.google.com/storage/docs/performing-resumable-uploads) (supports only GCS)
 
-The second copies the files that kadim dynamically generates into your application, allowing you to have full control
-over controller and views implementation. This generator is a thin layer over the Rails scaffold_controller, but it only
-accepts the model name as a parameter, for attributes all fields of the model are used.
+## Customization / generators
+
+### kadim:host
+
+Usage: `rails g kadim:host`
+
+Hosts the base files of kadim inside your application, allowing you to customize from the base controller to the
+layouts with the Ruby on Rails you know and love.
+
+The following folders will be copied recursively to your application:
+  - app/assets/javascripts/kadim
+  - app/assets/stylesheets/kadim
+  - app/controllers/kadim
+  - app/helpers/kadim
+  - app/views/kadim
+  - app/views/layouts/kadim
+
+It's pretty simple stuff, just take a look: https://github.com/fnix/kadim/tree/master/app
+
+### kadim:scaffold_controller
+
+Usage: `rails g kadim:scaffold_controller NAME [field:type field:type] [options]`
+
+Hosts on your application the files generated in runtime by `kadim` for the giving resource. This generator is a thin
+layer over the Rails scaffold_controller and accepts the same arguments.
+
+For example, using `credit_card` for NAME, the following files wil be generated on your application:
+  - Controller: app/controllers/kadim/credit_cards_controller.rb
+  - Test:       test/controllers/kadim/credit_cards_controller_test.rb
+  - Views:      app/views/kadim/credit_cards/index.html.erb [...]
+  - Helper:     app/helpers/kadim/credit_cards_helper.rb
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -71,7 +93,7 @@ And access http://localhost:3000/kadim
 ## Roadmap
 - [x] Dynamic CRUD generation from application models
 - [x] Tasks to copy files form kadim to the hosted application
-- [ ] Add support to ActiveStorage attachments
+- [x] Add support to ActiveStorage attachments
 - [ ] Add support to belongs_to relationships
 - [ ] Add a beautiful look and feel
 

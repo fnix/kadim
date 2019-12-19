@@ -3,9 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Manage resources", type: :system do
-  before do
-    Kadim.bootstrap_controllers
-  end
+  before { Kadim.bootstrap_controllers }
 
   context "when using kadim" do
     it "can list resources" do
@@ -52,6 +50,60 @@ RSpec.describe "Manage resources", type: :system do
 
       expect(page).to have_content("User was successfully destroyed.")
       expect(page).not_to have_content("Dr. Watson")
+    end
+
+    context "without upload configuration" do
+      before { Kadim.upload_type = nil }
+
+      it "upload files to local storage" do
+        visit "/kadim/users"
+        click_link "New User"
+
+        video_field = find_field("user[video]", type: "file")
+        photos_field = find_field("user[photos][]", type: "file", multiple: true)
+
+        expect(video_field["data-direct-upload-url"]).to be_nil
+        expect(video_field["data-resumable-upload-url"]).to be_nil
+
+        expect(photos_field["data-direct-upload-url"]).to be_nil
+        expect(photos_field["data-resumable-upload-url"]).to be_nil
+      end
+    end
+
+    context "with direct upload configured" do
+      before { Kadim.upload_type = :direct }
+
+      it "upload files direct to the cloud" do
+        visit "/kadim/users"
+        click_link "New User"
+
+        video_field = find_field("user[video]", type: "file")
+        photos_field = find_field("user[photos][]", type: "file", multiple: true)
+
+        expect(video_field["data-direct-upload-url"]).to be_url
+        expect(video_field["data-resumable-upload-url"]).to be_nil
+
+        expect(photos_field["data-direct-upload-url"]).to be_url
+        expect(photos_field["data-resumable-upload-url"]).to be_nil
+      end
+    end
+
+    context "with resumable upload configured" do
+      before { Kadim.upload_type = :resumable }
+
+      it "upload files direct to the cloud with resumable support" do
+        visit "/kadim/users"
+        click_link "New User"
+
+        video_field = find_field("user[video]", type: "file")
+        photos_field = find_field("user[photos][]", type: "file", multiple: true)
+
+        expect(video_field["data-direct-upload-url"]).to be_nil
+        expect(video_field["data-resumable-upload-url"]).to be_url
+
+        expect(photos_field["data-direct-upload-url"]).to be_nil
+        expect(photos_field["data-resumable-upload-url"]).to be_url
+      end
     end
   end
 end

@@ -65,7 +65,7 @@ RSpec.describe Kadim::Generators::ScaffoldControllerGenerator, type: :generator 
         end
 
         assert_match(/def user_params/, content)
-        assert_match(/params\.require\(:user\)\.permit\(:about, :admin, :birthdate, :email, :last_login, :login_count, :name\)/, content)
+        assert_match(/params\.require\(:user\)\.permit\(:about, :admin, :birthdate, :email, :last_login, :login_count, :name, :video, photos: \[\]\)/, content)
       end
     end
 

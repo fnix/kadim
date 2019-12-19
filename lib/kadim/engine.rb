@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "activestorage/resumable"
+
 module Kadim
   class Engine < ::Rails::Engine
     isolate_namespace Kadim
@@ -12,6 +14,7 @@ module Kadim
     end
 
     config.to_prepare do
+      Kadim.init
       Kadim.bootstrap_controllers
     end
 

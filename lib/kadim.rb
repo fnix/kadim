@@ -4,6 +4,29 @@ require "kadim/engine"
 require "kadim/template/memory_resolver"
 
 module Kadim
+  # @overload upload_type
+  #   @return [Symbol] current upload type used to scaffold file input fields
+  # @overload upload_type=(value)
+  #   You can use the following symbols to set the upload type:
+  #   * +:local+     - Uses ActiveStorage {https://guides.rubyonrails.org/active_storage_overview.html#disk-service Disk Service}
+  #   * +:direct+    - Uses ActiveStorage {https://guides.rubyonrails.org/active_storage_overview.html#direct-uploads Direct Upload}
+  #   * +:resumable+ - Uses {https://rubygems.org/gems/activestorage-resumable activestorage-resumable gem} to implement {https://cloud.google.com/storage/docs/performing-resumable-uploads Resumable Uploads} (supports only GCS)
+  #   @param value [Symbol]
+  #   @return [Symbol]
+  mattr_accessor :upload_type
+
+  def self.init
+    @@upload_type ||= if [:amazon, :google, :microsoft].include?(Rails.configuration.active_storage.service)
+      :direct
+    else
+      :local
+    end
+  end
+
+  def self.configure
+    yield self
+  end
+
   def self.app_model_paths
     return [] unless db_connection?
 
@@ -40,12 +63,7 @@ module Kadim
   end
 
   def self.scaffold_attributes(model_klass)
-    model_klass.columns
-               .reject { |column| %w[id created_at updated_at].include?(column.name) }
-               .sort_by(&:name)
-               .map { |column| [column.name, column.type] }
-               .to_h
-               .map { |k, v| "#{k}:#{v}" }
+    database_attributes(model_klass) + attachment_attributes(model_klass)
   end
 
   class << self
@@ -88,6 +106,28 @@ module Kadim
         end
         load_kadim_controllers
         load_kadim_views
+      end
+
+      def database_attributes(model_klass)
+        model_klass.columns
+                   .reject { |column| %w[id created_at updated_at].include?(column.name) }
+                   .sort_by(&:name)
+                   .map { |column| [column.name, column.type] }
+                   .to_h
+                   .map { |k, v| "#{k}:#{v}" }
+      end
+
+      def attachment_attributes(model_klass)
+        model_klass.attachment_reflections
+                   .values
+                   .map do |reflection|
+                     attribute_type = if reflection.is_a?(ActiveStorage::Reflection::HasOneAttachedReflection)
+                       "attachment"
+                     else
+                       "attachments"
+                     end
+                     "#{reflection.name}:#{attribute_type}"
+                   end
       end
 
       def load_kadim_controllers
