@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require "active_link_to"
 require "activestorage/resumable"
+require "bulma-rails"
 
 module Kadim
   class Engine < ::Rails::Engine
@@ -10,6 +12,8 @@ module Kadim
       config.assets.precompile += %w[
         kadim/application.css
         kadim/application.js
+        kadim/application_bulma.css
+        kadim/application_bulma.js
       ]
     end
 

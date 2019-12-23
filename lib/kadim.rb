@@ -8,12 +8,19 @@ module Kadim
   #   @return [Symbol] current upload type used to scaffold file input fields
   # @overload upload_type=(value)
   #   You can use the following symbols to set the upload type:
-  #   * +:local+     - Uses ActiveStorage {https://guides.rubyonrails.org/active_storage_overview.html#disk-service Disk Service}
-  #   * +:direct+    - Uses ActiveStorage {https://guides.rubyonrails.org/active_storage_overview.html#direct-uploads Direct Upload}
-  #   * +:resumable+ - Uses {https://rubygems.org/gems/activestorage-resumable activestorage-resumable gem} to implement {https://cloud.google.com/storage/docs/performing-resumable-uploads Resumable Uploads} (supports only GCS)
+  #   * :local     - Uses ActiveStorage {https://guides.rubyonrails.org/active_storage_overview.html#disk-service Disk Service}
+  #   * :direct    - Uses ActiveStorage {https://guides.rubyonrails.org/active_storage_overview.html#direct-uploads Direct Upload}
+  #   * :resumable - Uses {https://rubygems.org/gems/activestorage-resumable activestorage-resumable gem} to implement {https://cloud.google.com/storage/docs/performing-resumable-uploads Resumable Uploads} (supports only GCS)
   #   @param value [Symbol]
   #   @return [Symbol]
   mattr_accessor :upload_type
+
+  # @overload layout
+  #   @return [Symbol, nil] current layout or nil for the default Rails layout for scaffold_controller
+  # @overload layout=(value)
+  #   The following layouts are available:
+  #   * :bulma - A layout using the {https://bulma.io bulma} CSS framework.
+  mattr_accessor :layout
 
   def self.init
     @@upload_type ||= if [:amazon, :google, :microsoft].include?(Rails.configuration.active_storage.service)

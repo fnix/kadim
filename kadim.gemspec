@@ -18,7 +18,9 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
+  spec.add_dependency "active_link_to", "~> 1.0.0"
   spec.add_dependency "activestorage-resumable", "~> 1.0.0"
+  spec.add_dependency "bulma-rails", "~> 0.8.0"
   spec.add_dependency "google-cloud-storage", ">= 1.21.0", "< 2.0"
   spec.add_dependency "rails", "~> 6.0.0"
 
@@ -32,12 +34,14 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "puma", "~> 4.3.1"
   spec.add_development_dependency "rails-dom-testing", "~> 2.0.3"
   spec.add_development_dependency "redcarpet", "~> 3.5.0"
-  spec.add_development_dependency "rspec-rails", "~> 3.8.0"
+  spec.add_development_dependency "rspec-rails", "~> 4.0.0.beta3"
+  spec.add_development_dependency "rails-controller-testing", "~> 1.0.4"
   spec.add_development_dependency "rubocop-performance", "~> 1.5.0"
   spec.add_development_dependency "rubocop-rails", "~> 2.3.0"
   spec.add_development_dependency "rubocop-rspec", "~> 1.36.0"
   spec.add_development_dependency "rubocop", "~> 0.72.0"
   spec.add_development_dependency "selenium-webdriver", "~> 3.142.0"
+  spec.add_development_dependency "shoulda-matchers", "~> 4.1.2"
   spec.add_development_dependency "sqlite3"
   spec.add_development_dependency "webdrivers", "~> 4.1.0"
 end

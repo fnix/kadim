@@ -4,10 +4,14 @@ module Kadim
   module ApplicationHelper
     def menu_links
       kadim_link = link_to("Kadim", kadim.root_path)
-      links = Kadim.app_model_paths.map(&:camelize).map(&:constantize).map do |model_klass|
-        link_to model_klass.model_name.human(count: :many), model_klass
-      end
+      links = raw_menu_links
       safe_join([kadim_link] + links, " | ")
+    end
+
+    def raw_menu_links(options = {})
+      Kadim.app_model_paths.map(&:camelize).map(&:constantize).map do |model_klass|
+        active_link_to model_klass.model_name.human(count: :many), model_klass, **options
+      end
     end
 
     def upload_type

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kadim</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'kadim/application_bulma', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'kadim/application_bulma', 'data-turbolinks-track': 'reload', defer: true %>
+  <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar is-hidden-desktop">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item brand-text" href="../index.html">kadim</a>
+        <div class="navbar-burger burger" data-target="kadim-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+      </div>
+      <div id="kadim-menu" class="navbar-menu is-hidden-desktop">
+        <div class="navbar-start">
+          <% raw_menu_links(class: "navbar-item").each do |link| %>
+            <%= link %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="columns is-marginless">
+    <div class="column is-2 is-flex menu-container">
+      <div class="columns brand-container">
+        <div class="column is-12 has-background-dark has-text-centered">
+          <%= link_to 'kadim', root_path, class: "has-text-danger is-size-4 is-block is-fullwidth brand-text" %>
+        </div>
+      </div>
+      <div class="columns models-container">
+        <div class="column is-12 has-background-dark is-hidden-mobile models-container--column">
+          <aside class="menu">
+            <p class="menu-label">
+              Models
+            </p>
+            <ul class="menu-list">
+              <% raw_menu_links(class_active: "is-active").each do |link| %>
+                <li><%= link %></li>
+              <% end %>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <div class="column is-10">
+      <div class="content">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
