@@ -5,6 +5,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2020-01-11
+### Added
+- Bulma layout. We're pretty, don't you think? ![kadim with bulma](kadim.png)
+
+### Fixes
+- Forces ERb template when using kadim:scaffold_generator.
+
 ## [0.3.0] - 2019-12-19
 ### Added
 - Generate file inputs for models using ActiveStorage `has_one_attached` and/or `has_many_attached` method. The
@@ -45,7 +52,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Birthdate :birthday: :tada:
 - Kadim dynamically generates scaffolds for your models!
 
-[Unreleased]: https://github.com/fnix/kadim/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/fnix/kadim/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/fnix/kadim/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/fnix/kadim/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/fnix/kadim/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/fnix/kadim/compare/v0.2.1...v0.2.2

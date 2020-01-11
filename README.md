@@ -17,6 +17,18 @@ allows you to run kadim in environments with ephemeral file systems, like [herok
 
 Just follow the [Installation](#installation) section and access http://localhost:3000/kadim
 
+### [bulma.io](https://bulma.io) layout
+If you want a more beautiful view, add the following to your configuration file:
+
+```ruby
+# config/initializers/kadim.rb
+Kadim.configure do |config|
+  config.layout = :bulma
+end
+```
+
+![kadim with bulma](kadim.png)
+
 ### ActiveStorage support
 If we detect that you have S3, GCS or Azure Storage configured we will use
 [Direct Uploads](https://edgeguides.rubyonrails.org/active_storage_overview.html#direct-uploads) by default. If you are
@@ -95,7 +107,7 @@ And access http://localhost:3000/kadim
 - [x] Tasks to copy files form kadim to the hosted application
 - [x] Add support to ActiveStorage attachments
 - [ ] Add support to belongs_to relationships
-- [ ] Add a beautiful look and feel
+- [x] Add a beautiful look and feel
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
