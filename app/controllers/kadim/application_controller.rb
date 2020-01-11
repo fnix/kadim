@@ -13,7 +13,7 @@ module Kadim
       end
 
       def kadim_layout
-        Kadim.layout ? "kadim/application_#{Kadim.layout}" : "kadim/application"
+        Kadim.layout ? "kadim/#{Kadim.layout}/application" : "kadim/application"
       end
   end
 end

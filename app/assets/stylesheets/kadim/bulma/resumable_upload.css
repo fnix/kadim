@@ -1,0 +1,19 @@
+.resumable-upload {
+  margin-bottom: 0.75em;
+}
+ 
+.resumable-upload--pending {
+  opacity: 0.6;
+}
+ 
+.resumable-upload--complete .resumable-upload__progress {
+  opacity: 0.4;
+}
+ 
+.resumable-upload--error {
+  border-color: red;
+}
+ 
+input[type=file][data-resumable-upload-url][disabled] {
+  display: none;
+}

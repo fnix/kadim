@@ -3,6 +3,7 @@
 require "active_link_to"
 require "activestorage/resumable"
 require "bulma-rails"
+require "font-awesome-sass"
 
 module Kadim
   class Engine < ::Rails::Engine
@@ -12,8 +13,8 @@ module Kadim
       config.assets.precompile += %w[
         kadim/application.css
         kadim/application.js
-        kadim/application_bulma.css
-        kadim/application_bulma.js
+        kadim/bulma/application.css
+        kadim/bulma/application.js
       ]
     end
 

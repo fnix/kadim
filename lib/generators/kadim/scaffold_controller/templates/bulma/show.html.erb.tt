@@ -1,0 +1,32 @@
+<%%= render 'notice' %>
+
+<h1><%= singular_table_name.titleize %> #<%%= @<%= singular_table_name %>.id %> - <%%= @<%= singular_table_name %>.to_s %></h1>
+
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+<div class="columns">
+  <div class="column is-3 has-text-right">
+    <strong><%= attribute.human_name %>:</strong>
+  </div>
+  <div class="column">
+  <% if attribute.attachment? -%>
+    <%%= link_to @<%= singular_table_name %>.<%= attribute.column_name %>.filename, @<%= singular_table_name %>.<%= attribute.column_name %> if @<%= singular_table_name %>.<%= attribute.column_name %>.attached? %>
+  <% elsif attribute.attachments? -%>
+    <%% @<%= singular_table_name %>.<%= attribute.column_name %>.each do |<%= attribute.singular_name %>| %>
+      <div><%%= link_to <%= attribute.singular_name %>.filename, <%= attribute.singular_name %> %></div>
+    <%% end %>
+  <% else -%>
+    <%%= @<%= singular_table_name %>.<%= attribute.column_name %> %>
+  <% end -%>
+  </div>
+</div>
+
+<% end -%>
+
+<section class="box has-background-light is-shadowless">
+  <div class="columns">
+    <div class="column is-11 is-offset-1">
+      <%%= link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: "button is-primary" %>
+      <%%= link_to 'Back', <%= index_helper %>_path, class: "button" %>
+    </div>
+  </div>
+</section>

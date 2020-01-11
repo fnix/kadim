@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "active_link_to", "~> 1.0.0"
   spec.add_dependency "activestorage-resumable", "~> 1.0.0"
   spec.add_dependency "bulma-rails", "~> 0.8.0"
+  spec.add_dependency "font-awesome-sass", ">= 5.9.0"
   spec.add_dependency "google-cloud-storage", ">= 1.21.0", "< 2.0"
   spec.add_dependency "rails", "~> 6.0.0"
 

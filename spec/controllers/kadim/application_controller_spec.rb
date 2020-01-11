@@ -20,6 +20,6 @@ RSpec.describe Kadim::ApplicationController, type: :controller do
       get :index
     end
 
-    it { should render_template(layout: "kadim/application_bulma") }
+    it { should render_template(layout: "kadim/bulma/application") }
   end
 end

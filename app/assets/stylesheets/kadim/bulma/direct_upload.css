@@ -1,0 +1,19 @@
+.direct-upload {
+  margin-bottom: 0.75em;
+}
+ 
+.direct-upload--pending {
+  opacity: 0.6;
+}
+ 
+.direct-upload--complete .direct-upload__progress {
+  opacity: 0.4;
+}
+ 
+.direct-upload--error {
+  border-color: red;
+}
+ 
+input[type=file][data-direct-upload-url][disabled] {
+  display: none;
+}

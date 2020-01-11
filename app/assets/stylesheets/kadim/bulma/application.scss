@@ -1,8 +1,11 @@
+$primary: hsl(217, 71%, 53%);
 $menu-item-color: #adb5bd;
 $menu-item-hover-color: #adb5bd;
 $menu-item-hover-background-color: #495057;
 $menu-item-active-background-color: #495057;
 @import "bulma";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 @import "direct_upload";
 @import "resumable_upload";
@@ -12,7 +15,7 @@ $menu-item-active-background-color: #495057;
 }
 
 .menu-container {
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column;
 
   .brand-container {
@@ -26,6 +29,31 @@ $menu-item-active-background-color: #495057;
     .models-container--column {
       overflow: auto
     }
+  }
+}
+
+table.table td.action {
+  background-clip: padding-box;
+  background-color: $white;
+  position: sticky;
+  right: 0;
+  white-space: nowrap;
+  width: 1px;
+  
+  a {
+    padding: 0 0.375em;
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+.table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+  td.action {
+    background-color: $white-bis;
   }
 }
 

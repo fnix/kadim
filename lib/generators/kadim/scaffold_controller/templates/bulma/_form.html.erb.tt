@@ -1,0 +1,112 @@
+<%%= form_with(model: <%= model_resource_name %>, local: true) do |form| %>
+  <%% if <%= singular_table_name %>.errors.any? %>
+    <article id="error_explanation" class="message is-danger">
+      <div class="message-body">
+        <p><%%= pluralize(<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</p>
+        <ul>
+          <%% <%= singular_table_name %>.errors.full_messages.each do |message| %>
+            <li><%%= message %></li>
+          <%% end %>
+        </ul>
+      </div>
+    </article>
+  <%% end %>
+
+<% attributes.each do |attribute| -%>
+  <div class="field is-horizontal">
+<% if attribute.password_digest? -%>
+    <div class="field-label is-normal">
+      <%%= form.label :password, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <%%= form.password_field :password, class: "input" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <%%= form.label :password_confirmation, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <%%= form.password_field :password_confirmation, class: "input" %>
+        </div>
+      </div>
+    </div>
+<% elsif attribute.attachment? -%>
+    <div class="field-label is-normal">
+      <%%= form.label :<%= attribute.column_name %>, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <div class="file">
+            <label class="file-label">
+              <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, **upload_type, class: "file-input" %>
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">Choose a file...</span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+<% elsif attribute.attachments? -%>
+    <div class="field-label is-normal">
+      <%%= form.label :<%= attribute.column_name %>, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <div class="file">
+            <label class="file-label">
+              <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, **upload_type, multiple: true, class: "file-input" %>
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">Choose files...</span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+<% else -%>
+    <div class="field-label is-normal">
+      <%%= form.label :<%= attribute.column_name %>, class: "label" %>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <%%= form.<%= attribute.field_type %> :<%= attribute.column_name %>, class: "input #{invalid_attribute_class(<%= singular_table_name %>, :<%= attribute.column_name %>)}" %>
+          <%% if attribute_invalid?(<%= singular_table_name %>, :<%= attribute.column_name %>) %>
+            <p class="help is-danger"><%%= <%= singular_table_name %>.errors[:<%= attribute.column_name %>].to_sentence %></p>
+          <%% end %>
+        </div>
+      </div>
+    </div>
+<% end -%>
+  </div>
+
+<% end -%>
+  <section class="box has-background-light is-shadowless">
+    <div class="columns">
+      <div class="column is-11 is-offset-1">
+        <%%= form.submit class: "button is-primary" %>
+        <%% if action_name == "edit" %>
+          <%%= link_to 'Show', @<%= singular_table_name %>, class: "button" %>
+        <%% end %>
+        <%%= link_to 'Back', <%= index_helper %>_path, class: "button" %>
+      </div>
+    </div>
+  </section>
+<%% end %>

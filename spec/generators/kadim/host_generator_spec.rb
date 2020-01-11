@@ -15,12 +15,15 @@ RSpec.describe Kadim::HostGenerator, type: :generator do
 
   it { assert_file "app/assets/javascripts/kadim/application.js" }
   it { assert_file "app/assets/stylesheets/kadim/application.css" }
+  it { assert_file "app/assets/javascripts/kadim/bulma/application.js" }
+  it { assert_file "app/assets/stylesheets/kadim/bulma/application.scss" }
 
   it "creates kadim application controller" do
     assert_file "app/controllers/kadim/application_controller.rb" do |content|
       assert_match "module Kadim\n  class ApplicationController < ActionController::Base", content
       assert_match(/class.*protect_from_forgery with: :exception.*end/m, content)
       assert_match(/class.*append_view_path Kadim::MemoryResolver\.instance.*end/m, content)
+      assert_match(/layout :kadim_layout/, content)
     end
   end
 
@@ -43,6 +46,18 @@ RSpec.describe Kadim::HostGenerator, type: :generator do
       assert_match(/<head>.*<%= javascript_include_tag 'kadim\/application'.*%>.*<\/head>/m, content)
 
       assert_match(/<body>.*<div class="menu">.*<%= menu_links %>.*<\/div>.*<\/body>/m, content)
+      assert_match(/<body>.*<%= yield %>.*<\/body>/m, content)
+    end
+  end
+
+  it "creates kadim bulma application layout" do
+    assert_file "app/views/layouts/kadim/bulma/application.html.erb" do |content|
+      assert_match(/<head>.*<%= csrf_meta_tags %>.*<\/head>/m, content)
+      assert_match(/<head>.*<%= csp_meta_tag %>.*<\/head>/m, content)
+      assert_match(/<head>.*<%= stylesheet_link_tag 'kadim\/bulma\/application'.*%>.*<\/head>/m, content)
+      assert_match(/<head>.*<%= javascript_include_tag 'kadim\/bulma\/application'.*%>.*<\/head>/m, content)
+
+      assert_match(/<body>.*<div class="kadim-menu">.*<%= raw_menu_links(.*).each do |link| %>.*<\/div>.*<\/body>/m, content)
       assert_match(/<body>.*<%= yield %>.*<\/body>/m, content)
     end
   end

@@ -19,6 +19,7 @@ module Kadim
   #   @return [Symbol, nil] current layout or nil for the default Rails layout for scaffold_controller
   # @overload layout=(value)
   #   The following layouts are available:
+  #   * nil - No layout, will use Rails generators template.
   #   * :bulma - A layout using the {https://bulma.io bulma} CSS framework.
   mattr_accessor :layout
 
@@ -57,9 +58,12 @@ module Kadim
     Rails::Generators.namespace = Kadim
 
     require "rails/generators/erb/scaffold/scaffold_generator"
-    Erb::Generators::ScaffoldGenerator.source_paths.prepend(
-      File.expand_path("generators/kadim/scaffold_controller/templates", __dir__)
-    )
+    templates_path = if Kadim.layout == :bulma
+      "generators/kadim/scaffold_controller/templates/bulma"
+    else
+      "generators/kadim/scaffold_controller/templates"
+    end
+    Erb::Generators::ScaffoldGenerator.source_paths.prepend(File.expand_path(templates_path, __dir__))
 
     generator = Rails::Generators::ScaffoldControllerGenerator.new(args, options, config)
     source_path_idx = generator.class.source_paths.index { |source_path| source_path.include?("jbuilder") }

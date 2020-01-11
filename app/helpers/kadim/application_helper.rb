@@ -22,6 +22,14 @@ module Kadim
       end
     end
 
+    def invalid_attribute_class(model, attribute)
+      attribute_invalid?(model, attribute) ? "is-danger" : ""
+    end
+
+    def attribute_invalid?(model, attribute)
+      model.errors.key?(attribute)
+    end
+
     def method_missing(method, *args, &block)
       if method.to_s.end_with?("_path", "_url")
         if main_app.respond_to?(method)

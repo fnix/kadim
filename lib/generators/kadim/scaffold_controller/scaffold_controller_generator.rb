@@ -18,6 +18,8 @@ module Kadim
         end
 
         @initial_args += Kadim.scaffold_attributes(model_path.camelize.constantize) if @initial_args.one?
+        @initial_options.reject! { |option| option.starts_with?("-e") || option.starts_with?("--template-engine") }
+        @initial_options << "--template-engine=erb"
 
         Kadim.scaffold_controller(@initial_args, @initial_options, @initial_config)
       end
