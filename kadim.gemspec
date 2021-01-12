@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rspec", "~> 4.7.3"
   spec.add_development_dependency "guard", "~> 2.16.1"
   spec.add_development_dependency "launchy", "~> 2.4.3"
-  spec.add_development_dependency "nokogiri", "~> 1.10.5"
+  spec.add_development_dependency "nokogiri", "~> 1.11.1"
   spec.add_development_dependency "pry", "~> 0.12.2"
   spec.add_development_dependency "puma", "~> 4.3.1"
   spec.add_development_dependency "rails-dom-testing", "~> 2.0.3"
