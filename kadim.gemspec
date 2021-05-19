@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "launchy", "~> 2.4.3"
   spec.add_development_dependency "nokogiri", "~> 1.11.1"
   spec.add_development_dependency "pry", "~> 0.12.2"
-  spec.add_development_dependency "puma", "~> 4.3.1"
+  spec.add_development_dependency "puma", "~> 5.3.1"
   spec.add_development_dependency "rails-dom-testing", "~> 2.0.3"
   spec.add_development_dependency "redcarpet", "~> 3.5.0"
   spec.add_development_dependency "rspec-rails", "~> 4.0.0.beta3"
