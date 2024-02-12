@@ -9,15 +9,15 @@ Gem::Specification.new do |spec|
   spec.version     = Kadim::VERSION
   spec.authors     = ["Kadu Diógenes"]
   spec.email       = ["kadu@fnix.com.br"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of Kadim."
-  spec.description = "TODO: Description of Kadim."
+  spec.homepage    = "https://github.com/fnix/kadim"
+  spec.summary     = "Scaffold based admin for Rails."
+  spec.description = "Scaffold based admin for Rails."
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+    spec.metadata["allowed_push_host"] = "https://rubygems.org"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", "~> 5.2.8", ">= 5.2.8.1"
+  spec.add_dependency "rails", "~> 5.2.0", ">= 5.2.0"
 
-  spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "sqlite3", "~> 1.6.0", "< 1.7"
 end
